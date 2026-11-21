@@ -11,7 +11,7 @@ const assetTypes = {
   'pyodide-lock.json': 'application/json',
 };
 
-const runnerWorker = `
+const runnerWorker = String.raw`
 self.onmessage = async ({data}) => {
   if (data?.type !== 'start') return;
   const {assets, source} = data;
