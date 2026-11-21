@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
 import { Play, Square, Terminal } from 'lucide-react';
 import { fileError } from './files';
 
@@ -109,7 +110,7 @@ export default function PythonRunner({ source }: { source: () => string }) {
     setEntries(previous => [...previous, { type, text }].slice(-1000));
   }
 
-  function submitInput(event: React.FormEvent<HTMLFormElement>) {
+  function submitInput(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!request || !channelRef.current) return;
     channelRef.current.postMessage({ type: 'input-response', id: request.id, value: answer });
