@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.serena/
+test-results/
+playwright-report/
+public/rhwp/
+public/python-runtime/
+public/pdf-runtime/
+test-*.log
+outputs/

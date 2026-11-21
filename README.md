@@ -29,4 +29,3 @@ npm test
 테스트는 설치된 Windows Chrome과 Edge에서 실행합니다. 브라우저 조합 이벤트를 사용한 한글 입력, HWPX 저장과 HWP 변환, Office 사본 재열기, PDF 검색, Python 격리와 중지를 검증합니다.
 
 한글 편집은 [rhwp](https://github.com/edwardkim/rhwp)를 사용합니다. 이 프로젝트는 한컴의 HWP 문서 파일(.hwp) 공개 문서를 참고한 rhwp를 기반으로 한글 파일을 처리합니다.
-
