@@ -27,10 +27,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      - name: Build site for standard GitHub Pages URL
-        run: npm run build -- --base=/web-office/
-      - name: Rebase RHWP Studio static links
-        run: node scripts/prepare-pages.mjs
+      - name: Build site for office.junhyuk.site at URL root
+        run: npm run build -- --base=/
       - name: Upload compiled site
         uses: actions/upload-pages-artifact@v3
         with:
