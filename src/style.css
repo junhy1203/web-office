@@ -214,3 +214,155 @@ select, .editor-toolbar input:not([type=checkbox], [type=color]), .inline-form i
   .top-actions .button { padding-inline: .4rem; }
   .drop-shortcut { display: none; }
 }
+
+
+/* Web office compact shell: the viewport stays fixed; content scrolls within its own pane. */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+.app {
+  height: 100dvh;
+  max-height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+.work-area, .work-main, .editor-pane, .code-workspace, .document-workspace,
+.hangul-workspace, .slide-workspace {
+  min-height: 0;
+  min-width: 0;
+}
+.work-area, .work-main, .editor-pane { overflow: hidden; }
+.sidebar { min-height: 0; overflow: hidden; }
+.side-files { min-height: 0; overscroll-behavior: contain; }
+.welcome-scroll, .paper-scroll, .preview-scroll, .grid-scroll, .slide-list,
+.slide-stage, .format-body, .tab-list { overscroll-behavior: contain; }
+
+.tabs-bar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0 .4rem;
+  gap: .15rem;
+  overflow: visible;
+}
+.tabs-bar .icon-button { width: 1.95rem; height: 1.95rem; }
+.sidebar-toggle { margin: 0 .15rem 0 0; }
+.compact-brand {
+  flex: none;
+  gap: .36rem;
+  padding: .2rem .45rem;
+  font-size: .89rem;
+  letter-spacing: -.025em;
+  white-space: nowrap;
+}
+.compact-brand > span {
+  display: inline;
+  width: auto;
+  height: auto;
+  color: inherit;
+  background: none;
+  border-radius: 0;
+}
+.tab-list {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  align-items: stretch;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.tab-home, .document-tab { height: 100%; }
+.tab-home {
+  flex: none;
+  width: 2.25rem;
+  min-height: 0;
+  padding: 0;
+  justify-content: center;
+}
+.document-tab [role=tab] { min-height: 2.45rem; padding-inline: .5rem .12rem; }
+.toolbar-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: .05rem;
+  margin-left: auto;
+}
+.toolbar-actions .new-menu-options {
+  left: auto;
+  right: 0;
+  z-index: 20;
+}
+.toolbar-actions .icon-button:disabled { opacity: .36; }
+.editor-pane > * { min-height: 0; min-width: 0; }
+
+/* Single Colab-style interactive Python console. */
+.python-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  min-height: 8rem;
+  max-height: min(45dvh, 23rem);
+  overflow: hidden;
+}
+.python-toolbar { min-height: 2.35rem; padding-block: .2rem; }
+.python-console {
+  flex: 1 1 auto;
+  min-height: 5.6rem;
+  height: clamp(6rem, 24dvh, 13rem);
+  max-height: 15rem;
+  overflow: auto;
+  padding: .7rem .85rem;
+  background: #141c29;
+  color: #e6edf6;
+  font: .85rem/1.55 "Cascadia Code", Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overscroll-behavior: contain;
+}
+.python-placeholder { color: #8e9cad; }
+.python-line { min-height: 1.25em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.python-line.stderr { color: #ffb29e; }
+.python-line.input { color: #c3f0b6; }
+.python-input-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem; }
+.python-input-line label { white-space: pre-wrap; }
+.python-input-line input {
+  min-width: 4rem;
+  flex: 1 1 8rem;
+  padding: .1rem .12rem;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #8ea4c0;
+  border-radius: 0;
+  outline-offset: 0;
+  font: inherit;
+}
+
+@media (max-width: 700px) {
+  .tabs-bar { padding-inline: .15rem; }
+  .compact-brand { font-size: .8rem; gap: .22rem; padding-inline: .15rem; }
+  .compact-brand svg { width: 15px; }
+  .tab-home { width: 1.9rem; }
+  .sidebar {
+    display: flex;
+    position: absolute;
+    top: 2.5rem;
+    bottom: 1.8rem;
+    left: 0;
+    z-index: 5;
+    width: min(17rem, 83vw);
+    box-shadow: .35rem 0 1.4rem #10283c29;
+  }
+}
+@media (max-width: 430px) {
+  .tabs-bar { gap: 0; }
+  .tabs-bar .icon-button { width: 1.8rem; height: 1.9rem; }
+  .compact-brand { font-size: .75rem; }
+  .toolbar-actions { gap: 0; }
+}
