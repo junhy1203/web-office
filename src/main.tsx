@@ -110,7 +110,7 @@ function FormatList({ close }: { close: () => void }) {
 function App() {
   const [tabs, setTabs] = useState<Tab[]>([]);
   const [active, setActive] = useState('');
-  const [sidebar, showSidebar] = useState(true);
+  const [sidebar, showSidebar] = useState(() => window.matchMedia('(min-width: 701px)').matches);
   const [formatList, setFormatList] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [message, setMessage] = useState<{ text: string; error: boolean }>();
@@ -214,19 +214,6 @@ function App() {
       if (event.target.files) void openFiles(event.target.files);
       event.target.value = '';
     }} />
-    <header className="topbar">
-      <button className="brand" onClick={() => setActive('')} aria-label="문서함 홈"><span><Files size={20} strokeWidth={2} /></span> 문서함</button>
-      <div className="top-actions">
-        <div className="new-menu"><button className="button" aria-expanded={newMenu} onClick={() => showNewMenu(!newMenu)}><Plus size={16} /> 새 문서</button>
-          {newMenu && <div className="new-menu-options">{newItems.map(item => <button key={item.kind} onClick={() => create(item.filename)}><item.Icon size={16} /> {item.title}</button>)}</div>}
-        </div>
-        <button className="button" onClick={open}><FolderOpen size={17} /> 열기</button>
-        <button className="button primary" disabled={!tab || !availableSaves.includes(tab.id) || saving} onClick={() => tab && void save(tab.id)}>
-          <Download size={17} /> 사본 저장
-        </button>
-      </div>
-      <button className="icon-button top-help" title="파일 형식" aria-label="파일 형식" onClick={() => setFormatList(true)}><CircleHelp size={20} /></button>
-    </header>
     <div className="work-area">
       {sidebar && <aside className="sidebar" aria-label="작업 공간 탐색">
         <div className="side-top"><span>작업 공간</span><button className="icon-button" title="사이드바 접기" aria-label="사이드바 접기" onClick={() => showSidebar(false)}><PanelLeft size={16} /></button></div>
@@ -239,16 +226,24 @@ function App() {
       </aside>}
       <main className="work-main">
         <div className="tabs-bar">
-          {!sidebar && <button className="icon-button tabs-icon" title="사이드바 펼치기" aria-label="사이드바 펼치기" onClick={() => showSidebar(true)}><PanelLeft size={18} /></button>}
+          <button className="icon-button tabs-icon sidebar-toggle" title={sidebar ? '사이드바 접기' : '사이드바 펼치기'} aria-label={sidebar ? '사이드바 접기' : '사이드바 펼치기'} aria-expanded={sidebar} onClick={() => showSidebar(value => !value)}><PanelLeft size={17} /></button>
+          <button className="brand compact-brand" onClick={() => setActive('')} title="Web office 홈" aria-label="Web office 홈"><Files size={17} /><span>Web office</span></button>
           <div className="tab-list" role="tablist" aria-label="열린 문서">
-            <button className={`tab-home${!tab ? ' current' : ''}`} role="tab" aria-selected={!tab} onClick={() => setActive('')}><House size={16} /> 홈</button>
+            <button className={`tab-home${!tab ? ' current' : ''}`} role="tab" aria-selected={!tab} title="홈" aria-label="홈" onClick={() => setActive('')}><House size={16} /></button>
             {tabs.map(item => <div key={item.id} className={`document-tab${item.id === active ? ' current' : ''}`}>
               <button role="tab" aria-selected={item.id === active} onClick={() => setActive(item.id)} title={item.name}>
                 <FileIcon tab={item} size={15} /><span>{item.name}</span>{item.dirty && <i className="dirty-dot" aria-label="변경됨" />}
               </button><button className="tab-close" title="탭 닫기" aria-label={`${item.name} 닫기`} onClick={() => close(item.id)}><X size={14} /></button>
             </div>)}
           </div>
-          <button className="icon-button tabs-icon" aria-label="파일 열기" onClick={open}><Plus size={18} /></button>
+          <div className="toolbar-actions" aria-label="문서 명령">
+            <div className="new-menu"><button className="icon-button" title="새 문서" aria-label="새 문서" aria-expanded={newMenu} onClick={() => showNewMenu(!newMenu)}><Plus size={17} /></button>
+              {newMenu && <div className="new-menu-options">{newItems.map(item => <button key={item.kind} onClick={() => create(item.filename)}><item.Icon size={16} /> {item.title}</button>)}</div>}
+            </div>
+            <button className="icon-button" title="파일 열기 (Ctrl+O)" aria-label="파일 열기" onClick={open}><FolderOpen size={17} /></button>
+            <button className="icon-button" title="사본 저장 (Ctrl+S)" aria-label="사본 저장" disabled={!tab || !availableSaves.includes(tab.id) || saving} onClick={() => tab && void save(tab.id)}><Download size={17} /></button>
+            <button className="icon-button" title="파일 형식" aria-label="파일 형식" onClick={() => setFormatList(true)}><CircleHelp size={17} /></button>
+          </div>
         </div>
         {!tab && <Welcome open={open} create={create} showFormats={() => setFormatList(true)} />}
         {tabs.map(item => <EditorHost key={item.id} tab={item} active={item.id === active} register={register} markDirty={markDirty} save={save} />)}
