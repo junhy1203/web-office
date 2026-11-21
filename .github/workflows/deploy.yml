@@ -29,6 +29,10 @@ jobs:
         run: npm ci
       - name: Build site for office.junhyuk.site at URL root
         run: npm run build -- --base=/
+      - name: Install Chromium for browser verification
+        run: npx playwright install --with-deps chromium
+      - name: Verify live Python console
+        run: npx playwright test --config=playwright.ci.config.mjs
       - name: Upload compiled site
         uses: actions/upload-pages-artifact@v3
         with:
